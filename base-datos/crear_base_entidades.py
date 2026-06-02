@@ -16,6 +16,9 @@ class Facultad(Base):
     decano = Column(String(50), nullable=False)
 
     carrera = relationship("Carrera", back_populates="facultad")
+    
+    def __repr__(self):
+        return f"<Facultad(id={self.id}, nombre='{self.nombre}', ubicacion='{self.ubicacion}', decano='{self.decano}')>"
 
 
 class Carrera(Base):
@@ -30,6 +33,9 @@ class Carrera(Base):
     facultad = relationship("Facultad", back_populates="carrera") 
 
     profesores = relationship("Profesor", back_populates="carrera")
+    
+    def __repr__(self):
+        return f"<Carrera(id={self.id}, nombre='{self.nombre}', codigo='{self.codigo}', facultad_id={self.facultad_id})>"
 
 class Profesor(Base):
     __tablename__ = "profesores"
@@ -45,6 +51,9 @@ class Profesor(Base):
     carrera = relationship("Carrera", back_populates="profesores")
     
     recuros = relationship("RecursoAcademico", back_populates="profesor")
+    
+    def __repr__(self):
+        return f"<Profesor(id={self.id}, nombre='{self.nombre}', apellido='{self.apellido}', correo='{self.correo}', especialidad='{self.especialidad}', carrera_id={self.carrera_id})>"
 
 class RecursoAcademico(Base):
     __tablename__ = "recursos_academicos"
@@ -55,6 +64,9 @@ class RecursoAcademico(Base):
     fecha_publicacion = Column(Date, nullable=False)
     url = Column(String(200))
 
+    
+    def __repr__(self):
+        return f"<RecursoAcademico(id={self.id}, titulo='{self.titulo}', tipo_recurso='{self.tipo_recurso}', fecha_publicacion={self.fecha_publicacion}, url='{self.url}', profesor_id={self.profesor_id})>"
     profesor_id = Column(Integer, ForeignKey("profesores.id"))
 
     profesor = relationship("Profesor", back_populates="recuros")
